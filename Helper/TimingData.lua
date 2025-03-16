@@ -1,4 +1,4 @@
-local Preference   = require "Helper.PrefsManager";
+local Preference = require "Helper.PrefsManager";
 
 local TimingData = {};
 
