@@ -1,6 +1,8 @@
+---@diagnostic disable: undefined-global
 local NoteType = require "Helper.NoteType";
-local Player   = require "Helper.Player";
 
+local Steps         = GAMESTATE:GetCurrentSteps(GAMESTATE:GetMasterPlayerNumber());
+local GetNoteData   = Steps.GetNoteData;
 local NoteRowToBeat = NoteType.NoteRowToBeat;
 
 -- The max number of rows allowed for a Steps pattern.
@@ -10,15 +12,14 @@ local NoteData = {};
 
 function NoteData.GetNoteData(first, last)
 	last = last or NoteRowToBeat(MAX_NOTE_ROW);
-	local result = {};
-	local nd = Player(GAMESTATE:GetMasterPlayerNumber() + 1):GetNoteData(first, last);
-	for i = 1, #nd do
-		local data = nd[i];
-		if data[1] < last then
-			result[#result + 1] = data;
+	local list = {};
+	local data = GetNoteData(Steps, first, last);
+	for i = 1, #data do
+		if data[i][1] < last then
+			list[#list + 1] = data[i];
 		end
 	end
-	return result;
+	return list;
 end
 
 return NoteData;
